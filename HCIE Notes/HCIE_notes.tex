@@ -1,0 +1,152 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage[top=2cm]{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+%\usepackage{graphicx} % support the \includegraphics command and options
+%\graphicspath{ {"/Users/matthewholland/OneDrive/Oxford/Amide Bond Formation/Visualisation/Figures/"} }
+
+%\usepackage[citestyle=numeric-comp, sorting=none, backend=bibtex, bibstyle=chem-acs]{biblatex} %Imports biblatex package
+%\addbibresource{Amide_Bond_Formation.bib} %Import the bibliography file
+%\addbibresource{Amide Bond Formation-Amide Bonds.bib}
+%\addbibresource{Amide Bond Formation-Data & Issues.bib}
+%\addbibresource{Amide Bond Formation-Machine Learning.bib}
+%\addbibresource{Amide Bond Formation-Mechanisms.bib}
+
+\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{listings} %allows formatting of code within the document
+\usepackage{hyperref} %hyperlinks and urls
+\usepackage{xcolor, colortbl}
+\usepackage{realboxes}
+\usepackage{amssymb}
+
+%CODE List style
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=none,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+%\usepackage{minted}
+%\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+\renewcommand{\thefootnote}{\alph{footnote}}
+
+%\renewcommand{\arraystretch}{1.5} %increases the separation between rows in tables
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+\usepackage[font=small, labelfont=bf]{caption}
+\usepackage{subcaption}
+\renewcommand\thesubfigure{\Alph{subfigure}}
+\captionsetup{justification=raggedright,singlelinecheck=false}
+\captionsetup{font=small, skip=0pt}
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+\usepackage{appendix}
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{Heterocyle Isostere Explorer (HCIE) \\ Research Notes}
+
+\author{Matthew Holland \\ Brennan Group \\ Target Discovery Institute, University of Oxford \\ \texttt{matthew.holland@spc.ox.ac.uk}}
+
+\date{29 July 2021}
+
+\begin{document}
+\maketitle
+
+\section{ShaEP: Shape and Electrostatic Comparison}
+Previously \href{https://doi.org/10.1007/s10822-010-9374-0}{electroshape} parameters had been used to find the top 100 molecules from the VEHICLE database that matched well the input molecule. However, this is a crude measure, only taking three points on the molecule, and not accurately representing the 3D shape of the molecule, or its distribution of electronic potential.
+
+\href{https://doi.org/10.1021/ci800315d}{ShaEP} is a tool developed by Dr Mikko Vainio in the Department of Biochemistry and Pharmacy at the \AA bo Akademi University in Finland. It aligns molecules by calculating a field graph representation of each molecule, and assiging two values to each node on the field graph; the value of the electrostatic potential (ESP) at the node, and a local shape descriptor. The local shape descriptor is a histogram vector of signed distances of atoms from a plane tangential to the molecular shape-density (surface) at the vertex coordinates $\textbf{r} \in \mathbb{R}^3$.
+
+\subsection{Usage}
+ShaEP is distributed as a binary, unix executable. This makes it easy to use in the command line, but access to the source code is not possible, so it is currently a bit of a black box, and makes it difficult (but not impossible) to integrate into HCIE. An interface between the python script and a bash script for calculating ShaEP parameters will be needed, and the necessary information will need to be automatically extracted from the .txt output file.
+
+In order to calculate the ESP at each of the points on the field graph, ShaEP needs the coordinates of each of the atoms in the molecule, and the partial charge on each atom. The coordinates are included in the .pdb files generated from VEHICLE, but the partial charges need to be calculated - initially I have used Gasteiger charges as implemented in RDKit, but it would be possible to do this using XTB/Orca DFT, or using the DNN as Ewa used previously for electroshape.
+
+One issue was that the only accepted input file format that can contain both atomic coordinates and partial charges was TRIPOS Mol2 format. Initially I could not find an open-source program to convert .pdb files to .mol2 files, so I wrote one myself, which is freely available on GitHub. It turns out OpenBabel, a python library available on GitHub, can convert pdb to mol2 files, but trying to convert the full Vehicle database into a single .mol2 file with OpenBabel proved to be errorprone, so I am using my own converter.
+
+Initial tests at screening a single target molecule with ShaEP against the full library of 24 867 VEHICLe structures generated the following error each time:
+
+\begin{lstlisting}[language=bash]
+>> shaep --maxhits 100 -q query.mol2 --output-file similarity.txt target_library.mol2
+Assertion failed: (boost::math::isfinite( grad[0] )), function operator(), file /Users/runner/runners/2.165.0/work/1/s/include/overlapper.icc, line 265.
+Abort trap: 6
+\end{lstlisting}
+
+Contacting Mikko Vainio, he confirmed that this was a bug in the code, and published a new build of ShaEP for Mac (1.3.1) which, when the above command was run again, generated the desired outcome.
+
+To screen 1 small organic molecule (7 heavy atoms, 1 aromatic 6m ring) against a library of 24 867 (the entire VEHICLE database) took 00:01:38.67, with an average time of 3.69 ms per structure.
+
+\subsection{Comparing ShaEP and Electroshape}
+The current implementation of HCIE uses electroshape as a quick measure of screening input molecules against the database. To see if ShaEP might be able to offer an improvement, I compared the results from the current electroshape implementation of HCIE to those of the newest build of ShaEP.
+
+I used 1,3,5-triazine (S80) as a trial input molecule, and ran this in HCIE, and in ShaEP as a .mol2 file (generated with malt) against the full VEHICLE database in a .mol2 file (again generated in malt).
+
+\subsubsection{Problems with Coordinates in mol2 and pdb files}
+I noticed that several of the entries in the .mol2 file had coordinates of 0.0 for every atoms
+\begin{itemize}
+\item S1603
+\item S1605
+\item S5534
+\end{itemize}
+
+Inspection of the .pdb files showed that this error had originated from there, with the pdb files containing no meaningful atomic coordinates. Inspection of the xtb geometry optimisation output files (.xyz) showed that the optimisation on these molecules appeared to be successful, with the molecular structures appearing chemically sensible. 
+
+\end{document}

@@ -1,0 +1,200 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage[top=2cm]{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+%\usepackage{graphicx} % support the \includegraphics command and options
+%\graphicspath{ {"/Users/matthewholland/OneDrive/Oxford/Amide Bond Formation/Visualisation/Figures/"} }
+
+%\usepackage[citestyle=numeric-comp, sorting=none, backend=bibtex, bibstyle=chem-acs]{biblatex} %Imports biblatex package
+%\addbibresource{Amide_Bond_Formation.bib} %Import the bibliography file
+%\addbibresource{Amide Bond Formation-Amide Bonds.bib}
+%\addbibresource{Amide Bond Formation-Data & Issues.bib}
+%\addbibresource{Amide Bond Formation-Machine Learning.bib}
+%\addbibresource{Amide Bond Formation-Mechanisms.bib}
+
+\usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{listings} %allows formatting of code within the document
+\usepackage{hyperref} %hyperlinks and urls
+\usepackage{xcolor, colortbl}
+\usepackage{realboxes}
+%\usepackage{minted}
+%\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%CODE List style
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=none,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\newcolumntype{a}{>{\columncolor{backcolour}}l}
+
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+\renewcommand{\thefootnote}{\alph{footnote}}
+
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+\usepackage[font=small, labelfont=bf]{caption}
+\usepackage{subcaption}
+\renewcommand\thesubfigure{\Alph{subfigure}}
+\captionsetup{justification=raggedright,singlelinecheck=false}
+\captionsetup{font=small, skip=0pt}
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+\usepackage{appendix}
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+\title{ShaEP \\ Notes on Usage}
+
+\author{Matthew Holland \\ Brennan Group \\ Target Discovery Institute, University of Oxford \\ \texttt{matthew.holland@spc.ox.ac.uk}}
+\date{27 July 2021} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed
+
+\begin{document}
+\maketitle
+\section{Introduction}
+ShaEP is a software tool developed by Dr Mikko Vainio and co-workers at \AA bo Akademi University in Finland in 2009.\cite{vainio} It aligns pairs of rigid, 3D molecules based on their shape and electrostatic potential, and returns a similiarity index for each pair of molecules - one for the shape similarity, and one for the electrostatic potential similarity. It can be used to compare two molecules, or to screen a query molecule against a library of molecules.
+
+\section{Installation}
+ShaEP is downloaded as a binary file from \url{http://users.abo.fi/mivainio/shaep/download.php}. To download, read the license agreement, select your operating system and press `Download'. A .zip file will download into your downloads folder. Once the download has complete, click on the downloaded folder to unzip it and an executable file called `ShaEP' should appear in the downloads folder. I recommend moving it from the downloads folder to the applications folder, either by drag and drop, or through the command line.
+
+To make life easier, it is then worth adding the path to the program to your bash profile. To do this, open up a terminal window, and type the following:
+
+
+\begin{lstlisting}[language=bash]
+vi ~/.bash_profile
+\end{lstlisting}
+
+Then navigate to the bottom of the window, and press the `i' key (standing for insert). On a new line, type the following:
+\begin{lstlisting}[language=bash]
+export PATH="/Applications:$PATH"
+\end{lstlisting}
+and then press the `esc' key, and type `:wq', (standing for write, then quit) then press enter. You should be back in the terminal window, into which you should now type
+\begin{lstlisting}[language=bash]
+source ~/.bash_profile
+\end{lstlisting}
+and press enter.
+
+\section{Usage}
+ShaEP takes as its input a file containing the coordinates of all the atoms of the query molecule, and a file containing the coordinates of the atoms of all of the molecules in the target library to be searched. It is possible only to compare the shapes of the molecules, without comparing their electrostatic potentials (ESPs), and for this only atomic coordinates are needed, not partial charges. The following file formats are accepted by ShaEP:
+
+\begin{itemize}
+\item .sdf
+\item .xyz
+\end{itemize}
+
+However, to compare and align molecules by electrostatic potential, the partial charge of each atom is needed, along with its coordinates. Currently the only accepted file format that contains all of this information is the TRIPOS Mol2 format. Software to generate these files is hard to come by, however I have written a tool (\href{https://github.com/matthewtoholland/malt}{malt}) for generating them, which is available for free on my GitHub.
+
+Make sure the files for the query molecule and the target molecule/library are stored in the same directory (folder on your computer), open a terminal and navigate to the directory where the files are stored as below:
+\begin{lstlisting}[language=bash]
+cd path/to/directory
+\end{lstlisting}
+
+To compare a mol2 file with a query molecule, containing atomic coordinates and atomic partial charges (query.mol2) to a target library file (target\_library.mol2), type the following into the terminal:
+
+\begin{lstlisting}[language=bash]
+shaep --maxhits 100 -q query.mol2 --output-file similarity.txt target_library.mol2
+\end{lstlisting}
+
+These instructions will compare the molecule in query to each molecule in target\_library, printing the top 100 molecules' similarity scores to the file similarity.txt, which will be saved into the same directory as the input files. It will also return a file called similarity\_hits.txt, which contains all of the hits identified in similarity.txt, ranked in order of highest similarity, with the least similar molecule at the top, and the most similar molecule at the bottom of the list.
+
+If you want to return an sdf file, which contains the co-ordinates of the aligned molecules, relative to those of the target molecule, then you need to include the following additional commands:
+
+\begin{lstlisting}[language=bash]
+shaep --maxhits 5 -q query.mol2 --output-file similarity.txt --structures overlay.sdf --outputQuery target_library.mol2
+\end{lstlisting}
+
+This performs the exact same operation as the previous example, but also returns an sdf file of the atomic coordinates of the target molecules aligned to the query molecule. This is useful for visualising and comparing the alignments of the target molecules to the query.
+
+
+\begin{thebibliography}{9}
+\bibitem{vainio}
+Vainio, M., J.; Puranen, J., S.; Johnson, M., S.,
+ShaEP: Molecular Overlay Based on Shape and Electrostatic Potential. \textit{J. Chem. Inf. Model}, \textbf{2009}, \textit{49},
+492-502
+\end{thebibliography}
+
+\appendix
+\section{Commands and Options}
+\subsection{Accepted Input Files}
+\begin{itemize}
+\item .sdf (no partial charges)
+\item .sdf v3 from Accelrys (no partial charges)
+\item Tripos Mol2 format (coordinates and partial charges)
+\item smi SMILES format (no coordinates or partial charges)
+\item log Gaussian98/03 log file (no coordinates or partial charges)
+\item pdb (no partial charges)
+\item vbf Visipoint binary format
+\item xyz (no partial charges)
+\end{itemize}
+
+\renewcommand{\arraystretch}{1.5} %increases the separation between rows in tables
+
+\subsection{Command Options}
+\begin{tabular}{ lp{0.8 \linewidth} lp{\linewidth} }
+\Colorbox{backcolour}{\lstinline[language=bash]|-q [--query] arg|} & File name for a structure with which each input structure is superimposed. Multiple query structures can be used. If not given, the first file in the input list is used. \\
+\Colorbox{backcolour}{\lstinline[language=bash]|--output-file arg|} & Name of the output file for the similarity indices. If not given, the last filename in the input list is taken as the output file name. \\
+\Colorbox{backcolour}{\lstinline[language=bash]|--maxhits arg|} & The maximum number of compounds taken in the hitlist. Zero imposes no limit. Default = 0. \\
+\Colorbox{backcolour}{\lstinline[language=bash]|-s [--structures] arg|} & Write the superimposed structures in the hitlist to a file in sdf format. arg is filename. \\
+\Colorbox{backcolour}{\lstinline[language=bash]|--minHitSimilarity arg|} & The minimum similarity index value required for a compound to make it to the hitlist. Value must be within range [0, 1]. Zero imposes no limit, and is the default value. \\
+\Colorbox{backcolour}{\lstinline[language=bash]|--outputQuery|} & Write the matched query structure to the structures file before the superimposed structures, effective only with the  `structures' keyword. Exclusion volume structures are not written out.
+\end{tabular}
+
+\end{document}
